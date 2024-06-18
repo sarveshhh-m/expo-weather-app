@@ -1,34 +1,56 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Tabs } from "expo-router";
+import React, { useEffect } from "react";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarStyle: {
+          backgroundColor: "#ADD8E6",
+          height: 72,
+        },
+        tabBarItemStyle: {
+          alignSelf: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 8,
+        },
+        tabBarActiveTintColor: "#121249",
+        tabBarInactiveTintColor: "#12124922",
         headerShown: false,
-      }}>
+        tabBarLabelPosition: "below-icon",
+        tabBarIconStyle: {
+          padding: 0,
+          margin: 0,
+        },
+        tabBarLabelStyle: {
+          fontSize: 10,
+          fontWeight: "bold",
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: "Current Location",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "location" : "location-outline"}
+              color={color}
+            />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="other"
         options={{
-          title: 'Explore',
+          title: "Search Location",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "search" : "search-outline"}
+              color={color}
+            />
           ),
         }}
       />
