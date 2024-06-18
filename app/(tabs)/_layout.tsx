@@ -9,6 +9,7 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: "#ADD8E6",
           height: 72,
+          borderTopWidth: 0,
         },
         tabBarItemStyle: {
           alignSelf: "center",

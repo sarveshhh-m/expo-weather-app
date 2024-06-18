@@ -9,28 +9,27 @@ import {
   Modal,
 } from "react-native";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
-import * as Location from "expo-location";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import useHomeScreen from "@/hooks/useHomeScreen";
 
 const Index = () => {
-  const { loading } = useHomeScreen;
-  const weatherData = {
-    location: "New York, USA",
-    temperature: "25°C",
-    condition: "Sunny",
-    humidity: "32%",
-    windSpeed: "19.4 km/h",
-    windDir: "SW",
-    pressure: "1001 mb",
-    precip: "0.0 mm",
-    feelsLike: "43.3°C",
-    visibility: "10 km",
-    uvIndex: "9",
-    gustSpeed: "22.4 km/h",
-    icon: "https://openweathermap.org/img/wn/01d.png",
-  };
+  const {
+    loading,
+    location,
+    condition,
+    conditionImage,
+    temperature,
+    feelsLike,
+    humidity,
+    windSpeed,
+    windDir,
+    pressure,
+    precip,
+    visibility,
+    uvIndex,
+    gustSpeed,
+  } = useHomeScreen();
 
   const forecastData = [
     {
@@ -85,6 +84,20 @@ const Index = () => {
       <Text style={styles.conditionText}>{item.condition}</Text>
     </View>
   );
+  if (loading || location === "") {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#ADD8E6",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text style={{ color: "black" }}>Fetching Your Location...</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ADD8E6" }}>
@@ -92,18 +105,17 @@ const Index = () => {
       <View style={styles.locationHeader}>
         <Feather name="map-pin" size={32} color="black" />
         <View style={styles.locContainer}>
-          <Text style={styles.location}>{weatherData.location}</Text>
-          <Text style={{ color: "grey", fontSize: 12 }}>USA</Text>
+          <Text style={styles.location}>{location.split(",")[0]}</Text>
+          <Text style={{ color: "grey", fontSize: 12 }}>
+            {location.split(",")[1]}
+          </Text>
         </View>
       </View>
       <ScrollView style={styles.container}>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Image
-            source={{ uri: weatherData.icon }}
-            style={styles.weatherIcon}
-          />
-          <Text style={styles.temperature}>{weatherData.temperature}</Text>
-          <Text style={styles.condition}>{weatherData.condition}</Text>
+          <Image source={{ uri: conditionImage }} style={styles.weatherIcon} />
+          <Text style={styles.temperature}>{temperature}</Text>
+          <Text style={styles.condition}>{condition}</Text>
           <ScrollView
             style={styles.detailsContainer}
             horizontal
@@ -112,44 +124,44 @@ const Index = () => {
             <View style={styles.detailRow}>
               <FontAwesome5 name="tint" size={24} color="black" />
               <Text style={styles.detailText}>Humidity</Text>
-              <Text style={styles.detailValue}>{weatherData.humidity}</Text>
+              <Text style={styles.detailValue}>{humidity}</Text>
             </View>
             <View style={styles.detailRow}>
               <FontAwesome5 name="thermometer-half" size={24} color="black" />
               <Text style={styles.detailText}>Feels Like</Text>
-              <Text style={styles.detailValue}>{weatherData.feelsLike}</Text>
+              <Text style={styles.detailValue}>{feelsLike}</Text>
             </View>
             <View style={styles.detailRow}>
               <FontAwesome5 name="wind" size={24} color="black" />
               <Text style={styles.detailText}>Wind</Text>
               <Text style={styles.detailValue}>
-                {weatherData.windSpeed} {weatherData.windDir}
+                {windSpeed} {windDir}
               </Text>
             </View>
             <View style={styles.detailRow}>
               <FontAwesome5 name="cloud" size={24} color="black" />
               <Text style={styles.detailText}>Pressure</Text>
-              <Text style={styles.detailValue}>{weatherData.pressure}</Text>
+              <Text style={styles.detailValue}>{pressure}</Text>
             </View>
             <View style={styles.detailRow}>
               <FontAwesome5 name="cloud-rain" size={24} color="black" />
               <Text style={styles.detailText}>Precipitation</Text>
-              <Text style={styles.detailValue}>{weatherData.precip}</Text>
+              <Text style={styles.detailValue}>{precip} mm</Text>
             </View>
             <View style={styles.detailRow}>
               <FontAwesome5 name="eye" size={24} color="black" />
               <Text style={styles.detailText}>Visibility</Text>
-              <Text style={styles.detailValue}>{weatherData.visibility}</Text>
+              <Text style={styles.detailValue}>{visibility} km</Text>
             </View>
             <View style={styles.detailRow}>
               <FontAwesome5 name="sun" size={24} color="black" />
               <Text style={styles.detailText}>UV Index</Text>
-              <Text style={styles.detailValue}>{weatherData.uvIndex}</Text>
+              <Text style={styles.detailValue}>{uvIndex}</Text>
             </View>
             <View style={styles.detailRow}>
               <FontAwesome5 name="wind" size={24} color="black" />
               <Text style={styles.detailText}>Gust Speed</Text>
-              <Text style={styles.detailValue}>{weatherData.gustSpeed}</Text>
+              <Text style={styles.detailValue}>{gustSpeed} km/h</Text>
             </View>
           </ScrollView>
           <Text style={styles.forecastTitle}>7-Day Forecast</Text>
